@@ -1,0 +1,18 @@
+apiVersion: backstaige.io/v1alpha1
+kind: DockerCluster
+metadata:
+  name: hi-mom
+  namespace: default
+spec:
+  parameters:
+    id: hi-mom
+    kubernetesVersion: "v1.31.4"
+    controlPlane:
+      replicas: 1
+    workers:
+      replicas: 1
+    podCIDR: "10.244.0.0/16"
+    serviceCIDR: "10.96.0.0/12"
+    cni: cilium
+  writeConnectionSecretToRef:
+    name: hi-mom-kubeconfig
