@@ -1,0 +1,74 @@
+name: Validate PR
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  yaml-lint:
+    name: YAML Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Run yamllint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: clusters/
+          config_data: |
+            extends: default
+            rules:
+              line-length:
+                max: 200
+
+  kyverno-check:
+    name: Kyverno Policy Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Checkout Kyverno policies from platform repo
+        uses: actions/checkout@v4
+        with:
+          repository: grothesk/backstaige
+          path: backstaige-platform
+          sparse-checkout: kyverno/policies/crossplane/
+
+      - name: Install Kyverno CLI
+        uses: kyverno/action-install-cli@v0.2
+        with:
+          release: v1.13.2
+
+      - name: Find cluster manifests
+        id: find-manifests
+        run: |
+          manifests=$(find clusters/ -name '*.yaml' -o -name '*.yml' | tr '\n' ',' | sed 's/,$//')
+          echo "files=$manifests" >> "$GITHUB_OUTPUT"
+          if [ -z "$manifests" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate with Kyverno
+        if: steps.find-manifests.outputs.skip == 'false'
+        run: |
+          kyverno apply backstaige-platform/kyverno/policies/crossplane/ \
+            --resource ${{ steps.find-manifests.outputs.files }}
+
+  auto-merge:
+    name: Auto-merge
+    needs: [yaml-lint, kyverno-check]
+    runs-on: ubuntu-latest
+    if: github.actor == 'grothesk'
+    steps:
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
