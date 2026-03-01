@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: hello-hello
+  description: >-
+    Kubernetes v1.31.4
+    | 1 CP + 1 Workers
+    | Cilium
+  annotations:
+    backstaige.io/kubernetes-version: v1.31.4
+    backstaige.io/cp-replicas: "1"
+    backstaige.io/worker-replicas: "1"
+    backstaige.io/cni: cilium
+  tags:
+    - docker
+    - cilium
+spec:
+  type: kubernetes-cluster
+  system: backstaige
+  owner: infrastructure
+  lifecycle: experimental
