@@ -41,7 +41,7 @@ jobs:
           sparse-checkout: kyverno/policies/crossplane/
 
       - name: Install Kyverno CLI
-        uses: kyverno/action-install-cli@v0.2
+        uses: kyverno/action-install-cli@v0.2.0
         with:
           release: v1.13.2
 
