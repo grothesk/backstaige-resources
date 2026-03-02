@@ -37,6 +37,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: grothesk/backstaige
+          token: ${{ secrets.PLATFORM_REPO_TOKEN }}
           path: backstaige-platform
           sparse-checkout: kyverno/policies/crossplane/
 
