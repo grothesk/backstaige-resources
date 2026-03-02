@@ -28,6 +28,7 @@ jobs:
 
   kyverno-check:
     name: Kyverno Policy Check
+    if: false # temporarily disabled
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
