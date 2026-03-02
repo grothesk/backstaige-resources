@@ -19,7 +19,7 @@ jobs:
       - name: Run yamllint
         uses: ibiqlik/action-yamllint@v3
         with:
-          file_or_dir: clusters/
+          file_or_dir: manifests/
           config_data: |
             extends: default
             rules:
@@ -50,7 +50,7 @@ jobs:
       - name: Find cluster manifests
         id: find-manifests
         run: |
-          manifests=$(find clusters/ -name '*.yaml' -o -name '*.yml' | tr '\n' ',' | sed 's/,$//')
+          manifests=$(find manifests/ -name '*.yaml' -o -name '*.yml' | tr '\n' ',' | sed 's/,$//')
           echo "files=$manifests" >> "$GITHUB_OUTPUT"
           if [ -z "$manifests" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
