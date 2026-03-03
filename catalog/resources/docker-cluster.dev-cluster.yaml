@@ -3,13 +3,13 @@ kind: Resource
 metadata:
   name: dev-cluster
   description: >-
-    Kubernetes v1.31.4
-    | 1 CP + 0 Workers
+    Kubernetes v1.32.1
+    | 1 CP + 1 Workers
     | Cilium
   annotations:
-    backstaige.io/kubernetes-version: v1.31.4
+    backstaige.io/kubernetes-version: v1.32.1
     backstaige.io/cp-replicas: "1"
-    backstaige.io/worker-replicas: "0"
+    backstaige.io/worker-replicas: "1"
     backstaige.io/cni: cilium
   tags:
     - docker
