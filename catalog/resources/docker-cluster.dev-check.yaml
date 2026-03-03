@@ -3,11 +3,11 @@ kind: Resource
 metadata:
   name: dev-check
   description: >-
-    Kubernetes v1.31.4
+    Kubernetes v1.31.5
     | 1 CP + 1 Workers
     | Cilium
   annotations:
-    backstaige.io/kubernetes-version: v1.31.4
+    backstaige.io/kubernetes-version: v1.31.5
     backstaige.io/cp-replicas: "1"
     backstaige.io/worker-replicas: "1"
     backstaige.io/cni: cilium
