@@ -6,11 +6,11 @@ metadata:
 spec:
   parameters:
     id: dev-cluster
-    kubernetesVersion: "v1.31.4"
+    kubernetesVersion: "v1.32.1"
     controlPlane:
       replicas: 1
     workers:
-      replicas: 0
+      replicas: 1
     podCIDR: "10.244.0.0/16"
     serviceCIDR: "10.96.0.0/12"
     cni: cilium
