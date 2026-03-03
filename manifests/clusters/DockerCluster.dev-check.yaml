@@ -6,7 +6,7 @@ metadata:
 spec:
   parameters:
     id: dev-check
-    kubernetesVersion: "v1.31.5"
+    kubernetesVersion: "v1.32.0"
     controlPlane:
       replicas: 1
     workers:
